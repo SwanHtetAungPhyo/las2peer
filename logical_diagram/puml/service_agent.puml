@@ -1,0 +1,37 @@
+@startuml
+
+' Styling
+skinparam backgroundColor #FFFFFF
+skinparam shadowing false
+skinparam roundcorner 8
+skinparam rectangle {
+    backgroundColor White
+    borderColor Black
+    borderThickness 1
+}
+skinparam packageStyle rectangle
+skinparam package {
+    backgroundColor #F0F0F0
+    borderColor Black
+    borderThickness 1.5
+    fontColor Black
+    fontSize 12
+}
+skinparam defaultFontName Arial
+skinparam defaultFontSize 10
+skinparam monochrome false
+
+' Layout
+top to bottom direction
+
+' Service Agent Package
+package "Service Agent" {
+  [Agent Identity]
+  [Service Logic]
+  [State Manager]
+  [Message Handler]
+  [Security Layer]
+  [Lifecycle Mgmt]
+}
+
+@enduml
