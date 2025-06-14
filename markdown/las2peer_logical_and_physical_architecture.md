@@ -4,241 +4,81 @@
 
 ### 1.1 System Layers
 
-![sys_layer.png](sys_layer.png)
-
-### 1.2 Layer Responsibilities
-
 | Layer                 | Components                          | Primary Functions                                       |
 |-----------------------|-------------------------------------|---------------------------------------------------------|
-| **Application Layer** | Web Apps, Mobile Apps, Desktop Apps | User interfaces, client-side logic, service consumption |
-| **Service Layer**     | Service Agents                      | Business logic, service implementation, data processing |
-| **Framework Layer**   | Web Connector, REST Mapper, Core    | HTTP handling, message translation, agent management    |
-| **Network Layer**     | FreePastry P2P                      | Node discovery, message routing, network maintenance    |
+| **Application Layer** | Web Apps, Mobile Apps, Desktop     | User interfaces, service consumption                    |
+| **Service Layer**     | Service Agents                      | Business logic, service implementation                  |
+| **Framework Layer**   | Web Connector, REST Mapper, Core   | HTTP handling, message translation, agent management   |
+| **Network Layer**     | FreePastry P2P                      | Node discovery, message routing                        |
 
-### 1.3 Component Interactions
+### 1.2 Communication Patterns
 
-**Vertical Communication Flow:**
+**Vertical Flow:** Applications → Service Agents → Framework → P2P Network
+**Horizontal Flow:** Service-to-Service via message passing, Agent-to-Agent through envelopes
 
-- Applications → Service Agents → Framework Modules → P2P Network
-- HTTP/WebSocket requests translated to P2P messages
-- Service responses propagated back through layers
-
-**Horizontal Communication Flow:**
-
-- Service-to-Service communication via message passing
-- Agent-to-Agent direct communication through envelopes
-- Cross-node service discovery and invocation
-
-### 1.4 Data Flow Architecture
-
-![data_flow.png](data_flow.png)
-
-### 1.5 Service Agent Architecture
-
-![img.png](img.png)
-
-### 1.6 Message Flow Patterns
-
-**Request-Response Pattern:**
-
-```
-Client → REST Mapper → Core → Service Agent → Processing → Response
-```
-
-**Publish-Subscribe Pattern:**
-
-```
-Publisher Agent → Core → Event Distribution → Subscriber Agents
-```
-
-**Direct Agent Communication:**
-
-```
-Agent A → Envelope Creation → P2P Network → Agent B → Envelope Processing
-```
+**Message Patterns:**
+- Request-Response: Client → REST Mapper → Core → Service Agent → Response
+- Publish-Subscribe: Publisher Agent → Core → Event Distribution → Subscribers
+- Direct Communication: Agent A → Envelope → P2P Network → Agent B
 
 ## 2. Physical Architecture
 
 ### 2.1 Network Topology
 
 ```
-                    ┌─────────────────┐
-                    │ Bootstrap Node  │
-                    │   (Entry Point) │
-                    └─────────┬───────┘
-                              │
-            ┌─────────────────┼─────────────────┐
-            │                 │                 │
-    ┌───────▼─────────┐ ┌─────▼─────┐ ┌───────▼─────────┐
-    │   Service Node  │ │Relay Node │ │   Service Node  │
-    │ ┌─────────────┐ │ │           │ │ ┌─────────────┐ │
-    │ │Service A,B,C│ │ │  Routing  │ │ │Service D,E,F│ │
-    │ └─────────────┘ │ │   Only    │ │ └─────────────┘ │
-    └─────────────────┘ └───────────┘ └─────────────────┘
-            │                 │                 │
-    ┌───────▼─────────┐ ┌─────▼─────┐ ┌───────▼─────────┐
-    │   Client Node   │ │Relay Node │ │   Client Node   │
-    │   (Consumer)    │ │           │ │   (Consumer)    │
-    └─────────────────┘ └───────────┘ └─────────────────┘
+Bootstrap Node (Entry Point)
+     │
+┌────┼────┬────────────┐
+│    │    │            │
+Service  Relay    Service
+Node     Node      Node
 ```
 
-### 2.2 Node Types and Deployment
+### 2.2 Node Types
 
-| Node Type          | Purpose             | Requirements                  | Capabilities                           |
-|--------------------|---------------------|-------------------------------|----------------------------------------|
-| **Bootstrap Node** | Network entry point | High availability, static IP  | Node discovery, initial routing        |
-| **Service Node**   | Host services       | Java 17, sufficient resources | Service execution, data storage        |
-| **Relay Node**     | Message routing     | Stable connection, bandwidth  | Message forwarding, network stability  |
-| **Client Node**    | Service consumption | Basic connectivity            | Service access, lightweight operations |
+| Node Type          | Purpose             | Requirements              | Capabilities                    |
+|--------------------|---------------------|---------------------------|---------------------------------|
+| **Bootstrap Node** | Network entry       | High availability         | Node discovery, routing         |
+| **Service Node**   | Host services       | Java 17, resources        | Service execution, storage      |
+| **Relay Node**     | Message routing     | Stable connection         | Message forwarding              |
+| **Client Node**    | Service consumption | Basic connectivity        | Service access                  |
 
-### 2.3 Infrastructure Components
+### 2.3 Infrastructure Requirements
 
-**Hardware Requirements:**
+| Component   | Minimum | Recommended | Enterprise |
+|-------------|---------|-------------|------------|
+| **RAM**     | 2GB     | 8GB         | 16GB+      |
+| **CPU**     | 1 core  | 4 cores     | 8+ cores   |
+| **Storage** | 10GB    | 100GB       | 500GB+     |
 
-| Component   | Minimum   | Recommended | Enterprise          |
-|-------------|-----------|-------------|---------------------|
-| **RAM**     | 2GB       | 8GB         | 16GB+               |
-| **CPU**     | 1 core    | 4 cores     | 8+ cores            |
-| **Storage** | 10GB      | 100GB       | 500GB+              |
-| **Network** | Broadband | High-speed  | Dedicated bandwidth |
-
-**Software Stack:**
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Operating System                             │
-│            (Windows, Linux, macOS)                              │
-└─────────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────────┐
-│                  Java Runtime 17+                               │
-└─────────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────────┐
-│                  las2peer Framework                             │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │      Core       │  │  REST Mapper    │  │  Web Connector  │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-┌─────────────────────────────────────────────────────────────────┐
-│                    FreePastry Library                           │
-└─────────────────────────────────────────────────────────────────┘
-```
+**Software Stack:** OS → Java 17+ → las2peer Framework → FreePastry Library
 
 ### 2.4 Deployment Patterns
 
-#### 2.4.1 Single Node Deployment
+**Single Node:** Development environment with all modules on one machine
+**Multi-Node Cluster:** Production with load distribution across nodes
+**Geographically Distributed:** Global deployment with regional clusters
+**Hybrid Cloud-P2P:** Cloud nodes for stability, edge nodes for proximity
 
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                    Development Node                             │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │  Web Connector  │  │  REST Mapper    │  │      Core       │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │   Service A     │  │   Service B     │  │   Service C     │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
+### 2.5 Core Features
 
-- Development and testing environment
-- All modules on one machine
-- Local service hosting and testing
+**Network Communication:**
+- DHT-based service discovery
+- Efficient FreePastry routing
+- Self-organizing topology
 
-#### 2.4.2 Multi-Node Cluster
+**Security:**
+- End-to-end encryption via envelopes
+- Certificate-based authentication
+- Secure data transmission
 
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Node 1        │    │   Node 2        │    │   Node 3        │
-│ ┌─────────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │
-│ │ Service A   │ │◄──►│ │ Service B   │ │◄──►│ │ Service C   │ │
-│ │ Service D   │ │    │ │ Service E   │ │    │ │ Service F   │ │
-│ └─────────────┘ │    │ └─────────────┘ │    │ └─────────────┘ │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
+**Performance:**
+- Connection pooling
+- Message compression
+- Multi-layer caching
+- Automatic load balancing
 
-- Production environment
-- Load distribution across nodes
-- High availability and fault tolerance
+### 2.6 Management
 
-#### 2.4.3 Geographically Distributed
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   US Region     │    │  Europe Region  │    │   Asia Region   │
-│                 │    │                 │    │                 │
-│ ┌─────────────┐ │    │ ┌─────────────┐ │    │ ┌─────────────┐ │
-│ │ Node Cluster│ │◄──►│ │ Node Cluster│ │◄──►│ │ Node Cluster│ │
-│ └─────────────┘ │    │ └─────────────┘ │    │ └─────────────┘ │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-```
-
-- Global service deployment
-- Regional node clusters
-- Optimized routing and latency
-
-#### 2.4.4 Hybrid Cloud-P2P
-
-```
-                        ┌─────────────────┐
-                        │   Cloud Tier    │
-                        │ ┌─────────────┐ │
-                        │ │Stable Nodes │ │
-                        │ └─────────────┘ │
-                        └─────────┬───────┘
-                                  │
-        ┌─────────────────────────┼─────────────────────────┐
-        │                         │                         │
-┌───────▼─────────┐       ┌───────▼─────────┐       ┌───────▼─────────┐
-│   Edge Tier     │       │   Edge Tier     │       │   Edge Tier     │
-│ ┌─────────────┐ │       │ ┌─────────────┐ │       │ ┌─────────────┐ │
-│ │ Local Nodes │ │       │ │ Local Nodes │ │       │ │ Local Nodes │ │
-│ └─────────────┘ │       │ └─────────────┘ │       │ └─────────────┘ │
-└─────────────────┘       └─────────────────┘       └─────────────────┘
-```
-
-- Cloud nodes for stability
-- Edge nodes for proximity
-- Dynamic load balancing
-
-### 2.5 Network Communication
-
-#### 2.5.1 Message Routing
-
-- **DHT-based Service Discovery**: Distributed hash table for efficient service location
-- **Efficient Message Routing**: FreePastry's optimized routing algorithms
-- **Automatic Network Topology Optimization**: Self-organizing network structure
-
-#### 2.5.2 Security Layer
-
-- **End-to-end Encryption**: All communications encrypted using envelope system
-- **Certificate-based Authentication**: X.509 certificates for node identity verification
-- **Secure Envelope System**: Cryptographic containers for sensitive data transmission
-
-#### 2.5.3 Performance Optimization
-
-- **Connection Pooling**: Reuse of network connections for efficiency
-- **Message Compression**: Bandwidth optimization through data compression
-- **Caching Strategies**: Multiple cache layers for frequently accessed services
-- **Load Balancing**: Automatic distribution of requests across available service instances
-
-### 2.6 Monitoring and Management
-
-#### 2.6.1 Network Health Monitoring
-
-```
-┌─────────────────────────────────────────────────────────────────┐
-│                  Monitoring Dashboard                           │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │ Node Status     │  │ Service Health  │  │ Network Metrics │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
-│  │ Traffic Analysis│  │ Error Tracking  │  │ Performance     │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
-└─────────────────────────────────────────────────────────────────┘
-```
-
-#### 2.6.2 Administrative Controls
-
-- **Node Management**: Start, stop, restart, and configure nodes remotely
-- **Service Deployment**: Deploy, update, and retire services across the network
-- **Security Management**: Certificate management and access control policies
-- **Performance Tuning**: Resource allocation and optimization settings
+**Monitoring:** Node status, service health, network metrics, traffic analysis
+**Administrative Controls:** Remote node management, service deployment, security policies, performance tuning
