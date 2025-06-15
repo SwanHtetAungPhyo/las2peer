@@ -1,0 +1,46 @@
+@startuml
+title las2peer: Get All Users API Call Flow
+
+actor Client
+participant "Connector Node" as Connector
+participant "Service Registry" as Registry
+participant "User Management\nService Node" as UserService
+participant "Data Storage\nNodes" as Storage
+participant "Other Network\nNodes" as OtherNodes
+
+Client -> Connector : GET /api/users
+note right: HTTP REST request\nwith authentication token
+
+Connector -> Registry : locate UserManagement service
+Registry -> Connector : return service location & routing info
+
+Connector -> UserService : encrypted P2P message\nwith request details
+note right: Message encrypted with\nservice's public key
+
+UserService -> UserService : decrypt message\nvalidate authentication
+UserService -> UserService : check permissions\nfor user listing
+
+alt Authorized Request
+    UserService -> Storage : query distributed user data
+    note right: Encrypted queries to\nmultiple storage nodes
+
+    Storage -> UserService : return encrypted user records
+    note left: Data aggregated from\ndistributed storage
+
+    UserService -> UserService : decrypt & compile user list\nfilter based on permissions
+
+    UserService -> Connector : encrypted response\nwith user data
+    Connector -> Connector : decrypt response
+    Connector -> Client : HTTP 200 + JSON user list
+
+else Unauthorized Request
+    UserService -> Connector : encrypted error response
+    Connector -> Client : HTTP 403 Forbidden
+end
+
+note over Client, OtherNodes
+Network maintains anonymity - other nodes cannot
+determine the content or participants of the transaction
+end note
+
+@enduml

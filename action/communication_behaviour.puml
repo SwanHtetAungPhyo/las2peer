@@ -1,0 +1,48 @@
+@startuml
+title las2peer Network: State Machine
+
+[*] --> Disconnected
+
+state "Node States" as NodeStates {
+    Disconnected --> Joining : joinNetwork()
+    Joining --> Connected : join success
+    Joining --> Disconnected : join failed
+    Connected --> Ready : routing table updated
+    Ready --> Processing : service request received
+    Processing --> Ready : request completed
+    Ready --> Disconnected : leave network
+}
+
+state "Service States" as ServiceStates {
+    [*] --> ServiceIdle
+    ServiceIdle --> ServiceReceiving : message received
+    ServiceReceiving --> ServiceExecuting : dispatch to agent
+    ServiceExecuting --> ServiceResponding : method execution complete
+    ServiceResponding --> ServiceIdle : response sent
+}
+
+state "Message States" as MessageStates {
+    [*] --> MessageCreated
+    MessageCreated --> MessageEncrypted : encrypt & sign
+    MessageEncrypted --> MessageRouting : send via overlay
+    MessageRouting --> MessageDelivered : reach destination
+    MessageDelivered --> MessageProcessed : service execution
+    MessageProcessed --> ResponseCreated : create response
+    ResponseCreated --> ResponseRouting : send response
+    ResponseRouting --> ResponseDelivered : response received
+    ResponseDelivered --> [*]
+}
+
+state "Overlay States" as OverlayStates {
+    [*] --> OverlayIdle
+    OverlayIdle --> OverlayRouting : route message
+    OverlayRouting --> OverlayIdle : message delivered
+    OverlayIdle --> OverlayMaintenance : update routing tables
+    OverlayMaintenance --> OverlayIdle : maintenance complete
+}
+
+NodeStates --> ServiceStates : when service available
+ServiceStates --> MessageStates : process service request
+MessageStates --> OverlayStates : use overlay for routing
+
+@enduml

@@ -1,0 +1,46 @@
+@startuml WebConnectorActivity
+start
+
+:Receive HTTP request (method, URI, headers, body);
+
+fork
+  :Parse HTTP headers (e.g., cookies, auth);
+fork again
+  :Read request body (e.g., JSON, XML);
+end fork
+
+if (Path is "/las2peer/auth/login"?) then (yes)
+  :Handle login via AuthHandler;
+  :Authenticate agent;
+  if (Authentication successful?) then (yes)
+    :Create or retrieve session;
+    :Return HTTP 200 (with session ID);
+  else (no)
+    :Return HTTP 401 Unauthorized;
+  endif
+
+elseif (Path is "/las2peer/auth/logout"?) then (yes)
+  :Handle logout via AuthHandler;
+  :Destroy session;
+  :Return HTTP 200 (Logout success);
+
+elseif (Path starts with "/las2peer") then (yes)
+  :Process internal las2peer endpoint;
+  :Return appropriate HTTP response;
+
+else (no)
+  :Pass to REST Mapper;
+  :Match URI to service method;
+  :Identify agent from session ID;
+  :Invoke service method on las2peer node;
+
+  if (Service method returns result?) then (yes)
+    :Format and return HTTP 200 response;
+  else (error)
+    :Map exception to error response;
+    :Return HTTP error;
+  endif
+endif
+
+stop
+@enduml
