@@ -92,10 +92,19 @@ Contribute to community ecosystem by:
 
 ![LogicalInfrastructure.jpeg](latest/physical_logical/LogicalInfrastructure.jpeg)
 
-
+----
 
 # Class Diagram 
 
 - REST Mapper Module
 - Communication Module
 - Peer to Peer Communication and Discovery
+
+---
+
+# Action
+# Client and Las2Peer Communication Behaviour Diagram
+
+![communication_behaviour.png](latest/action/communication_behaviour.png)
+# Node LifeCycle State Machine
+![node_life_cycle_state_machine.jpeg](latest/action/node_life_cycle_state_machine.jpeg)
