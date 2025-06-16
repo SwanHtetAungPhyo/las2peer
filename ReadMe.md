@@ -1,4 +1,3 @@
-
 # las2peer Framework World Machine Model
 
 ## Authors
@@ -84,27 +83,45 @@ Contribute to community ecosystem by:
 - **Envelope Encryption** – secure inter-agent communication
 - **Service-level Permissions** – basic access control for community services
 
-----
+---
 
-# Logical  And Physical Infra
+# Logical and Physical Infrastructure
 
 ![las2peerPhysicaljpeg.jpeg](latest/physical_logical/las2peerPhysicaljpeg.jpeg)
 
+---
+
 ![LogicalInfrastructure.jpeg](latest/physical_logical/LogicalInfrastructure.jpeg)
-
-----
-
-# Class Diagram 
-
-- REST Mapper Module
-- Communication Module
-- Peer to Peer Communication and Discovery
 
 ---
 
-# Action
-# Client and Las2Peer Communication Behaviour Diagram
+# Class Diagram
 
+## REST Mapper Module
+![las2peer_restmapper_module_class_diagram.jpg](latest/class_diagram/las2peer_restmapper_module_class_diagram.jpg)
+
+---
+
+## Communication Module
+![Communication_classDiagram.png](latest/class_diagram/Communication_classDiagram.png)
+
+---
+
+## Peer to Peer Communication and Discovery
+![p2p_ClassDiagram.png](latest/class_diagram/p2p_ClassDiagram.png)
+
+---
+
+# Action Diagrams
+
+## Client and Las2Peer Communication Sequence Diagram
 ![communication_behaviour.png](latest/action/communication_behaviour.png)
-# Node LifeCycle State Machine
+
+----
+
+## Las2Peer Execution and Client Interaction Activity Diagram
+![Last2PeerExecutionFlowActivityDiagram.png](latest/action/Last2PeerExecutionFlowActivityDiagram.png)
+
+---
+## Node LifeCycle State Machine
 ![node_life_cycle_state_machine.jpeg](latest/action/node_life_cycle_state_machine.jpeg)
