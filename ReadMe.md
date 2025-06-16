@@ -65,7 +65,7 @@ Contribute to community ecosystem by:
 - Developing community-focused services
 - Providing documentation and examples
 - Supporting deployed services
-- Engaging with las2peer developer community
+
 
 ## 4. Technical Architecture
 
@@ -80,7 +80,7 @@ Contribute to community ecosystem by:
 ### 4.2 Deployment Scenarios
 - **Development Environment** – local testing with single/multiple nodes
 - **Community Networks** – educational and community service deployments
-- **Research Networks** – academic and research project deployments
+
 
 ### 4.3 Security Model
 - **Cryptographic Identity** – unique agent/node authentication
