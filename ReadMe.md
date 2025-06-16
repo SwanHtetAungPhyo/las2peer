@@ -1,29 +1,101 @@
 
+# las2peer Framework World Machine Model
 
-##  las2peer Core Modules Summary
+## Authors
+* Swan Htet Aung Phyo
+* Aung Zayar Moe
+* Michal Rowski
+* Alexander Rosol
 
-| **Component**                   | **Purpose**                                                       | **Key Role / Interaction**                                                                      |
-| ------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| **P2P Node** \[1]               | Hosts agents, manages messaging and DHT storage using FreePastry. | Routes messages, stores data, connects agents and services.                                     |
-| **Agents** \[2]\[3]             | Represent users or services with cryptographic identities.        | Authenticate, sign messages, and encapsulate services (e.g., `UserAgent`, `ServiceAgent`).      |
-| **Service Runtime** \[4]        | Runs microservices via agents and thread pools.                   | Executes service methods on request; uses execution context and message routing.                |
-| **Distributed Storage** \[5]    | Encrypted, versioned DHT storage (via FreePastry Past).           | Shared storage for agents and services; secure and decentralized.                               |
-| **Connectors** \[6]             | External interfaces (HTTP, WebSocket, etc.) into the P2P network. | Forwards client requests to services; interacts with Node and Security modules.                 |
-| **REST Mapper** \[6]            | Maps HTTP requests to annotated service methods.                  | Works with Web Connector to dispatch REST calls into service logic.                             |
-| **Web Connector** \[6]          | Built-in HTTP server and REST gateway.                            | Handles REST API calls, exposes services to the web, includes REST Mapper and session handling. |
-| **Security Layer** \[2]\[3]     | Manages encryption, signing, agent unlock, message integrity.     | Ensures all messages and storage are securely processed and verified.                           |
-| **Class Loader / Sandbox** \[4] | Securely loads service JARs with limited permissions.             | Enforces isolation for services; prevents unauthorized access or execution.                     |
+## 1. Business Goal
 
----
+las2peer enables decentralized microservice development for community information systems, eliminating centralized dependencies through peer-to-peer networks. Primary focus: educational environments and community services.
 
-## 🔗 References
+### 1.1 Glossary of Terms
 
-* \[1] [Node.java API](http://rwth-acis.github.io/las2peer/latest/core/i5/las2peer/p2p/Node.html)
-* \[2] [Agent Security Package](http://rwth-acis.github.io/las2peer/latest/core/i5/las2peer/api/security/package-summary.html)
-* \[3] [ServiceAgent API](http://rwth-acis.github.io/las2peer/latest/core/i5/las2peer/api/security/package-summary.html#:~:text=ServiceAgent)
-* \[4] [Service API Overview](http://rwth-acis.github.io/las2peer/latest/core/i5/las2peer/api/package-summary.html)
-* \[5] [Concepts - DHT Storage](https://github.com/rwth-acis/las2peer/wiki/Concepts-Overview#:~:text=Freepastry%20provides%20a%20key%20value)
-* \[6] [Connectors Overview](https://github.com/rwth-acis/las2peer/wiki/Concepts-Overview#:~:text=Connector)
+| Concept | Description |
+|---------|-------------|
+| Developer | Software engineer creating community services using las2peer framework |
+| Service Agent | Autonomous software entity encapsulating service logic in P2P network |
+| Node | Network peer hosting services and participating in P2P operations |
+| Service Consumer | Application or user accessing community services via REST or P2P |
+| Envelope | Encrypted data container for secure inter-agent communication |
+| FreePastry | Underlying P2P library handling network routing and communication |
+| Bootstrap Node | Entry point helping new nodes join the P2P network |
 
----
+## 2. Developer Functional Scope
 
+Developers create community services using Java 17 framework compatible across Windows, Linux, macOS. Development process: use las2peer template project, extend Service base class, implement annotated methods, configure properties, build JAR packages.
+
+Deployment involves starting nodes and registering service agents. Services become available across P2P networks with agent-based authentication using cryptographic identities.
+
+### 2.1 Developer Profile
+- Service ownership and deployment history
+- Node configuration and network participation
+- Development environment with IDE integration
+- Access to logging and debugging tools
+- Service versioning capabilities
+
+### 2.2 Development Tools
+- **Getting Started** – tutorials for service development
+- **API Documentation** – JavaDoc references and Swagger integration
+- **Service Templates** – template project for rapid development
+- **Testing Tools** – local testing and debugging capabilities
+- **Settings** – service configuration and documentation access
+
+## 3. Network Participant Roles
+
+### 3.1 Service Consumers
+Access community services through:
+- REST API via Web Connector
+- Direct P2P communication with service agents
+- WebSocket connections for real-time communication
+
+### 3.2 Node Operators
+Maintain network infrastructure by:
+- Hosting computational resources for service execution
+- Maintaining P2P connections and message routing
+- Contributing storage and processing capacity
+
+### 3.3 Service Providers
+Contribute to community ecosystem by:
+- Developing community-focused services
+- Providing documentation and examples
+- Supporting deployed services
+- Engaging with las2peer developer community
+
+## 4. Technical Architecture
+
+### 4.1 Core Framework Components
+
+**Core Module** – P2P networking, agent framework, message handling, security layer, node management
+
+**REST Mapper Module** – HTTP/REST integration, translates web requests to P2P messages
+
+**Web Connector Module** – web server capabilities, static content, WebSocket support, Swagger integration
+
+### 4.2 Deployment Scenarios
+- **Development Environment** – local testing with single/multiple nodes
+- **Community Networks** – educational and community service deployments
+- **Research Networks** – academic and research project deployments
+
+### 4.3 Security Model
+- **Cryptographic Identity** – unique agent/node authentication
+- **Envelope Encryption** – secure inter-agent communication
+- **Service-level Permissions** – basic access control for community services
+
+----
+
+# Logical  And Physical Infra
+
+![las2peerPhysicaljpeg.jpeg](latest/physical_logical/las2peerPhysicaljpeg.jpeg)
+
+![LogicalInfrastructure.jpeg](latest/physical_logical/LogicalInfrastructure.jpeg)
+
+
+
+# Class Diagram 
+
+- REST Mapper Module
+- Communication Module
+- Peer to Peer Communication and Discovery
