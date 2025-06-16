@@ -6,9 +6,13 @@
 * Michal Rowski
 * Alexander Rosol
 
+
+# World Machine Model
+
 ## 1. Business Goal
 
 las2peer enables decentralized microservice development for community information systems, eliminating centralized dependencies through peer-to-peer networks. Primary focus: educational environments and community services.
+
 
 ### 1.1 Glossary of Terms
 
