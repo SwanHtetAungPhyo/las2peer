@@ -1,4 +1,4 @@
-# las2peer Framework World Machine Model
+# las2peer Framework Analysis
 
 ## Authors
 * Swan Htet Aung Phyo
