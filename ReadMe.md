@@ -87,41 +87,41 @@ Contribute to community ecosystem by:
 
 # Logical and Physical Infrastructure
 
-![las2peerPhysicaljpeg.jpeg](latest/physical_logical/las2peerPhysicaljpeg.jpeg)
+![las2peerPhysicaljpeg.jpeg](LogicalAndPhysicalArchitecture/PhysicalArchitecture.jpeg)
 
 ---
 
-![LogicalInfrastructure.jpeg](latest/physical_logical/LogicalInfrastructure.jpeg)
+![LogicalInfrastructure.jpeg](LogicalAndPhysicalArchitecture/LogicalArchitecture.jpeg)
 
 ---
 
 # Class Diagram
 
 ## REST Mapper Module
-![las2peer_restmapper_module_class_diagram.jpg](latest/class_diagram/las2peer_restmapper_module_class_diagram.jpg)
+![las2peer_restmapper_module_class_diagram.jpg](ClassDiagrams/las2peer_restmapper_module_class_diagram.jpg)
 
 ---
 
 ## Communication Module
-![Communication_classDiagram.png](latest/class_diagram/Communication_classDiagram.png)
+![Communication_classDiagram.png](ClassDiagrams/las2peer_node_communication_classDiagram.png)
 
 ---
 
 ## Peer to Peer Communication and Discovery
-![p2p_ClassDiagram.png](latest/class_diagram/p2p_ClassDiagram.png)
+![p2p_ClassDiagram.png](ClassDiagrams/las2peer_api_core_p2p_class_diagram.png)
 
 ---
 
 # Action Diagrams
 
 ## Client and Las2Peer Communication Sequence Diagram
-![communication_behaviour.png](latest/action/communication_behaviour.png)
+![communication_behaviour.png](SystemDynamicDiagram/communication_behaviour.png)
 
 ----
 
 ## Las2Peer Execution and Client Interaction Activity Diagram
-![Last2PeerExecutionFlowActivityDiagram.png](latest/action/Last2PeerExecutionFlowActivityDiagram.png)
-
+![Last2PeerExecutionFlowActivityDiagram.png](SystemDynamicDiagram/Last2PeerExecutionFlowActivityDiagram.png)
+a
 ---
 ## Node LifeCycle State Machine
-![node_life_cycle_state_machine.jpeg](latest/action/node_life_cycle_state_machine.jpeg)
+![node_life_cycle_state_machine.jpeg](SystemDynamicDiagram/node_life_cycle_state_machine.jpeg)
